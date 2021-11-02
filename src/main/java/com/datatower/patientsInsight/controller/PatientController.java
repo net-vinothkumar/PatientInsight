@@ -1,5 +1,6 @@
 package com.datatower.patientsInsight.controller;
 
+import com.datatower.patientsInsight.dto.Gender;
 import com.datatower.patientsInsight.dto.PatientCreateResponse;
 import com.datatower.patientsInsight.dto.PatientDto;
 import com.datatower.patientsInsight.model.Patient;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/patients")
@@ -60,6 +63,29 @@ public class PatientController {
     public ResponseEntity<PatientDto> getPatientData(@NotNull @PathVariable UUID patientId) {
         return new ResponseEntity<>(
                 modelMapper.map(patientService.getPatient(patientId), PatientDto.class),
+                HttpStatus.OK
+        );
+    }
+
+    @Operation(summary = "Get the list of patient data using the gender.",
+            description = "This API implementation will return all the patient information based on given gender information.")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "returns all existing patients data or gender as filter"),
+            @ApiResponse(responseCode = "400",
+                    description = "Invalid request, for example invalid gender information provided."),
+            @ApiResponse(responseCode = "500",
+                    description = "Patient service encountered an unexpected internal error"),
+            @ApiResponse(responseCode = "503",
+                    description = "Patient service encountered a temporary internal error")})
+    @GetMapping
+    public ResponseEntity<?> getPatientDataByGender(@RequestParam Gender gender) {
+        List<Patient> patients = patientService.getAllPatient(gender);
+        return new ResponseEntity<>(
+                patients.stream()
+                        .map(patient -> modelMapper.map(
+                                patient, PatientDto.class)
+                        )
+                        .collect(Collectors.toList()),
                 HttpStatus.OK
         );
     }

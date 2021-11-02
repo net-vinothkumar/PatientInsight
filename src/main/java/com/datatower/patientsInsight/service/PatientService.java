@@ -1,11 +1,13 @@
 package com.datatower.patientsInsight.service;
 
+import com.datatower.patientsInsight.dto.Gender;
 import com.datatower.patientsInsight.exception.ResourceNotFoundException;
 import com.datatower.patientsInsight.model.Patient;
 import com.datatower.patientsInsight.repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -24,5 +26,13 @@ public class PatientService {
                         String.format("Patient with id %s not found",
                                 patientId)
                 ));
+    }
+
+    public List<Patient> getAllPatient(Gender gender) {
+        if (gender == null) {
+            return patientRepository.findAll();
+        } else {
+            return patientRepository.findByGender(gender);
+        }
     }
 }

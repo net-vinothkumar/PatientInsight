@@ -30,6 +30,27 @@ Technology Stack :
 - Lombok
 - H2 Database
 
+List of Patient Manager Application API's :
+  
+  - curl -X 'POST' \
+    'http://localhost:8080/api/v1/patients' \
+    -H 'accept: */*' \
+    -H 'Content-Type: application/json' \
+    -d '{
+    "firstName": "John",
+    "lastName": "Eugen",
+    "gender": "MALE",
+    "birthDate": "2021-11-02"
+    }'
+    
+  - curl -X 'GET' \
+    'http://localhost:8080/api/v1/patients/233026c0-3b31-4eb3-9c40-a762fa59b723' \
+    -H 'accept: */*'
+    
+  - curl -X 'GET' \
+    'http://localhost:8080/api/v1/patients?gender=MALE' \
+    -H 'accept: */*'
+    
 How to access the API's using Swagger UI ?
   - http://localhost:8080/swagger or
   - http://localhost:8080/swagger-ui/index.html?configUrl=/api-docs/swagger-config

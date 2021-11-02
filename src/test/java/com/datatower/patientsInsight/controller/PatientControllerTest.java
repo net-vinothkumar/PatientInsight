@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -29,8 +30,8 @@ public class PatientControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    private final static String SAMPLE_REQUEST = "{\n" +
-            "  \"firstName\": \"Test Patient First Name\",\n" +
+    private final static String TEST_PATIENT_DATA = "{\n" +
+            "  \"firstName\": \"Test First Name\",\n" +
             "  \"lastName\": \"Test Last Name\",\n" +
             "  \"gender\" : \"MALE\",\n" +
             "  \"birthDate\": \"2021-11-02\"\n" +
@@ -45,7 +46,7 @@ public class PatientControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post(API_BASE_PATH_V1)
-                .content(SAMPLE_REQUEST)
+                .content(TEST_PATIENT_DATA)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
@@ -67,11 +68,28 @@ public class PatientControllerTest {
         mockMvc.perform(get(API_BASE_PATH_V1 + "/" + patientId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(TEST_PATIENT_DATA)
+                );
+    }
+
+    @Test
+    void shouldBeAbleToGetAllThePatientDataUsingGender() throws Exception {
+        Patient patient = new Patient();
+        patient.setFirstName("Test First Name");
+        patient.setLastName("Test Last Name");
+        patient.setGender(Gender.MALE);
+        patient.setBirthDate(LocalDate.now());
+
+        List<Patient> patients = List.of(patient);
+
+        when(patientService.getAllPatient(Gender.MALE)).thenReturn(patients);
+
+        mockMvc.perform(get(API_BASE_PATH_V1 + "?gender=MALE"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(
-                        "{\"firstName\":\"Test First Name\"," +
-                                "\"lastName\":\"Test Last Name\"," +
-                                "\"gender\":\"MALE\"," +
-                                "\"birthDate\":\"2021-11-02\"}")
+                        String.format("[%s]", TEST_PATIENT_DATA)
+                        )
                 );
     }
 }
