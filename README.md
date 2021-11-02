@@ -31,8 +31,8 @@ Technology Stack :
 - H2 Database
 
 How to access the API's using Swagger UI ?
-http://localhost:8080/swagger or
-http://localhost:8080/swagger-ui/index.html?configUrl=/api-docs/swagger-config
+  - http://localhost:8080/swagger or
+  - http://localhost:8080/swagger-ui/index.html?configUrl=/api-docs/swagger-config
 
 How to run the "Patient Manager Application" ?
  - mvn spring-boot:run
