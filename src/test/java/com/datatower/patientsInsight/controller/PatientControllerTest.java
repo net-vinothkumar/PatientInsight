@@ -1,5 +1,7 @@
 package com.datatower.patientsInsight.controller;
 
+import com.datatower.patientsInsight.dto.Gender;
+import com.datatower.patientsInsight.model.Patient;
 import com.datatower.patientsInsight.service.PatientService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+
+import java.time.LocalDate;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -45,5 +50,28 @@ public class PatientControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(content().json(String.format("{\"patientId\":\"%s\"}", patientId)));
+    }
+
+    @Test
+    void shouldBeAbleToGetThePatientDataUsingPatientId() throws Exception {
+        Patient patient = new Patient();
+        patient.setFirstName("Test First Name");
+        patient.setLastName("Test Last Name");
+        patient.setGender(Gender.MALE);
+        patient.setBirthDate(LocalDate.now());
+
+        UUID patientId = UUID.randomUUID();
+
+        when(patientService.getPatient(patientId)).thenReturn(patient);
+
+        mockMvc.perform(get(API_BASE_PATH_V1 + "/" + patientId))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(
+                        "{\"firstName\":\"Test First Name\"," +
+                                "\"lastName\":\"Test Last Name\"," +
+                                "\"gender\":\"MALE\"," +
+                                "\"birthDate\":\"2021-11-02\"}")
+                );
     }
 }

@@ -11,13 +11,11 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/patients")
@@ -45,6 +43,24 @@ public class PatientController {
                         patientService.createPatient(patient)
                 ),
                 HttpStatus.CREATED
+        );
+    }
+
+    @Operation(summary = "Get the patient data using the id.",
+            description = "This API implementation will return the existing patient information.")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "returns existing patient data"),
+            @ApiResponse(responseCode = "400",
+                    description = "Invalid request, for example invalid patientId provided, etc"),
+            @ApiResponse(responseCode = "500",
+                    description = "Patient service encountered an unexpected internal error"),
+            @ApiResponse(responseCode = "503",
+                    description = "Patient service encountered a temporary internal error")})
+    @GetMapping("/{patientId}")
+    public ResponseEntity<PatientDto> getPatientData(@NotNull @PathVariable UUID patientId) {
+        return new ResponseEntity<>(
+                modelMapper.map(patientService.getPatient(patientId), PatientDto.class),
+                HttpStatus.OK
         );
     }
 }
