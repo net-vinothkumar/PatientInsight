@@ -23,7 +23,6 @@ The application handles patient data - a patient is described by the following a
 - Patient data should be stored persistently.
 - Collections should be sorted by last name ascending.
 
-
 Technology Stack :
 - Java 11
 - Spring Boot
@@ -31,7 +30,17 @@ Technology Stack :
 - Lombok
 - H2 Database
 
+How to access the API's using Swagger UI ?
+http://localhost:8080/swagger or
+http://localhost:8080/swagger-ui/index.html?configUrl=/api-docs/swagger-config
+
 How to run the "Patient Manager Application" ?
+ - mvn spring-boot:run
+
+How to access the H2 database ?
+ - http://localhost:8080/h2-console
+ - Table Name - Patients
+ - Database name - patientsinsight
 
 Technical Decisions :
 
