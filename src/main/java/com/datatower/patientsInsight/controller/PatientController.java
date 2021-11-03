@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/patients")
 @RequiredArgsConstructor
+@Validated
 public class PatientController {
 
     private final PatientService patientService;
@@ -39,7 +41,7 @@ public class PatientController {
             @ApiResponse(responseCode = "503",
                     description = "Patient service encountered a temporary internal error")})
     @PostMapping
-    public ResponseEntity<PatientCreateResponse> createPatientData(@NotNull @Valid @RequestBody PatientDto patientDto) {
+    public ResponseEntity<PatientCreateResponse> createPatientData(@RequestBody @Valid  PatientDto patientDto) {
         Patient patient = modelMapper.map(patientDto, Patient.class);
         return new ResponseEntity<>(
                 new PatientCreateResponse(
@@ -88,5 +90,18 @@ public class PatientController {
                         .collect(Collectors.toList()),
                 HttpStatus.OK
         );
+    }
+
+    @Operation(summary = "Delete the patient data using patient id.")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200"),
+            @ApiResponse(responseCode = "400",
+                    description = "Invalid request, for example invalid patient id."),
+            @ApiResponse(responseCode = "500",
+                    description = "Patient service encountered an unexpected internal error"),
+            @ApiResponse(responseCode = "503",
+                    description = "Patient service encountered a temporary internal error")})
+    @DeleteMapping("/{patientId}")
+    public void deletePatient(@PathVariable UUID patientId) {
+        patientService.deletePatient(patientId);
     }
 }

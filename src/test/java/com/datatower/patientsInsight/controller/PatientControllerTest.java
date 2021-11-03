@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import java.time.LocalDate;
@@ -18,7 +20,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,7 +35,7 @@ public class PatientControllerTest {
             "  \"firstName\": \"Test First Name\",\n" +
             "  \"lastName\": \"Test Last Name\",\n" +
             "  \"gender\" : \"MALE\",\n" +
-            "  \"birthDate\": \"2021-11-02\"\n" +
+            "  \"birthDate\": \"2000-11-02\"\n" +
             "}";
     private static final String API_BASE_PATH_V1 = "/api/v1/patients";
 
@@ -54,12 +55,30 @@ public class PatientControllerTest {
     }
 
     @Test
+    void shouldThrowAnExceptionWhileCreatingAPatientWithLessThan18YearsOld() throws Exception {
+        String patientId = UUID.randomUUID().toString();
+
+        String INVALID_TEST_PATIENT_DATA = "{\n" +
+                "  \"firstName\": \"Test First Name\",\n" +
+                "  \"lastName\": \"Test Last Name\",\n" +
+                "  \"gender\" : \"MALE\",\n" +
+                "  \"birthDate\": \"2021-11-02\"\n" +
+                "}";
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .post(API_BASE_PATH_V1)
+                .content(INVALID_TEST_PATIENT_DATA)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().json(
+                        "{\"errorMessage\":\"Patient should be older than 18 years.\"}"
+                ));
+    }
+
+    @Test
     void shouldBeAbleToGetThePatientDataUsingPatientId() throws Exception {
-        Patient patient = new Patient();
-        patient.setFirstName("Test First Name");
-        patient.setLastName("Test Last Name");
-        patient.setGender(Gender.MALE);
-        patient.setBirthDate(LocalDate.now());
+        Patient patient = preparePatientTestData();
 
         UUID patientId = UUID.randomUUID();
 
@@ -74,11 +93,7 @@ public class PatientControllerTest {
 
     @Test
     void shouldBeAbleToGetAllThePatientDataUsingGender() throws Exception {
-        Patient patient = new Patient();
-        patient.setFirstName("Test First Name");
-        patient.setLastName("Test Last Name");
-        patient.setGender(Gender.MALE);
-        patient.setBirthDate(LocalDate.now());
+        Patient patient = preparePatientTestData();
 
         List<Patient> patients = List.of(patient);
 
@@ -91,5 +106,30 @@ public class PatientControllerTest {
                         String.format("[%s]", TEST_PATIENT_DATA)
                         )
                 );
+    }
+
+    @Test
+    void shouldBeAbleToDeletePatientData() throws Exception {
+        UUID patientId = UUID.randomUUID();
+
+        doNothing().when(patientService).deletePatient(isA(UUID.class));
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .delete(API_BASE_PATH_V1 + "/" + patientId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(patientService, times(1))
+                .deletePatient(patientId);
+    }
+
+    private Patient preparePatientTestData() {
+        Patient patient = new Patient();
+        patient.setFirstName("Test First Name");
+        patient.setLastName("Test Last Name");
+        patient.setGender(Gender.MALE);
+        patient.setBirthDate(LocalDate.of(2000, 11, 2));
+        return patient;
     }
 }

@@ -1,5 +1,6 @@
 package com.datatower.patientsInsight.dto;
 
+import com.datatower.patientsInsight.validator.Adult;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
@@ -22,10 +24,10 @@ public class PatientDto {
     private String lastName;
 
     @Schema(description = "Patient's gender.")
-    @NotEmpty(message = "patient's gender cannot be null or empty.")
+    @NotNull(message = "patient's gender cannot be null.")
     private Gender gender;
 
     @Schema(description = "Patient's date of birth.")
-    @NotEmpty(message = "patient's birth date cannot be null or empty.")
+    @Adult
     private LocalDate birthDate;
 }

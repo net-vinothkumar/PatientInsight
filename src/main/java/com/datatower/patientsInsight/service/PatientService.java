@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -33,6 +34,18 @@ public class PatientService {
             return patientRepository.findAll();
         } else {
             return patientRepository.findByGender(gender);
+        }
+    }
+
+    public void deletePatient(UUID patientId) {
+        Optional<Patient> patient = patientRepository.findById(patientId);
+        if (patient.isPresent()) {
+            patientRepository.deleteById(patientId);
+        } else {
+            throw new ResourceNotFoundException(
+                    String.format("Patient with id %s not found",
+                            patientId)
+            );
         }
     }
 }
