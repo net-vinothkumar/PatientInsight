@@ -88,3 +88,8 @@ The application handles patient data - a patient is described by the following a
 Database with patient details -
 
 <img width="840" alt="Screenshot 2021-11-04 at 14 48 58" src="https://user-images.githubusercontent.com/30971809/140325431-cf4cf1fd-9c90-4f42-9138-aad5901341bd.png">
+
+Patient Manager API - 
+
+<img width="681" alt="Screenshot 2021-11-04 at 14 58 11" src="https://user-images.githubusercontent.com/30971809/140326956-05c61d66-5e2f-405e-b8ab-6f09e486497c.png">
+
