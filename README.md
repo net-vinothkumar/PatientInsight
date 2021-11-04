@@ -70,7 +70,7 @@ The application handles patient data - a patient is described by the following a
 ### Further Improvements / Technical Debt :
 
     1. Its better to write the test case for getting the patients data with lastname sorted in ASC.
-    2. More focus on FHIR compliant entity fields usage.
+    2. More focus on FHIR compliant entity fields usage. i.e data type string, boolean, UUID, etc.
     3. Improve the design for patientId , currently its UUID, require a technical brain stroming session.
     4. Improvement for the GET API - to get all the female patients, not sure why the API should return
        only female patients, using a filter we shall improve this API MALE or FEMALE or any other filter criteria.
