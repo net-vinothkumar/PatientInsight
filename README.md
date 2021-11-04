@@ -27,8 +27,12 @@ The application handles patient data - a patient is described by the following a
 - Java 11
 - Spring Boot
 - Spring Data
+- Spring Scheduler
+- Spring Validator
+- Swagger Doc / Spring Doc Open API  
 - Lombok
 - H2 Database
+- Maven Build Tool
 
 ### List of Patient Manager Application API's :
   
