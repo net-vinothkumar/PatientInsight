@@ -80,5 +80,6 @@ The application handles patient data - a patient is described by the following a
     8. Exception handling could be improved by creating custom error messages with more specific attributes.
     9. Add more logging to trace the flow use cases.
     10. Add test case for cleanup scheduler.
-    11. Add integration test case to test the different layer interaction i.e Controller, Service, Repository. 
-
+    11. Add integration test case to test the different layer interaction i.e Controller, Service, Repository.
+    12. Patient - deleting records older than 1 year - scheduler - currently its running for everyday once at 12:00 AM, it could
+        changed according to the requirement of product owner, frequency could be changed.

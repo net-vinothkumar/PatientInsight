@@ -34,4 +34,6 @@ public class Patient {
 
     @Column
     private LocalDate birthDate;
+
+    private LocalDate createdAt = LocalDate.now();
 }
