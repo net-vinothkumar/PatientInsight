@@ -87,4 +87,4 @@ The application handles patient data - a patient is described by the following a
 ### Few Snapshots :
 Database with patient details -
 
-https://github.com/net-vinothkumar/PatientInsight/issues/1
+<img width="840" alt="Screenshot 2021-11-04 at 14 48 58" src="https://user-images.githubusercontent.com/30971809/140325431-cf4cf1fd-9c90-4f42-9138-aad5901341bd.png">
