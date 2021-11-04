@@ -91,6 +91,7 @@ The application handles patient data - a patient is described by the following a
     12. Patient - deleting records older than 1 year - scheduler - currently its running for everyday once at 12:00 AM, it could
         changed according to the requirement of product owner, frequency could be changed.
     13. Currently using H2 as database, we shall discuss and finalize a relational / NoSQL database for production usage.
+    14. Required to look for use cases where race condition might happen and handle in the code accordingly.
 
 ### Few Snapshots :
 Database with patient details -
