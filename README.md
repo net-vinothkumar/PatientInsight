@@ -11,8 +11,11 @@ The application handles patient data - a patient is described by the following a
 - Gender
 - Birthday
   Operations
+  
   The application should support all of the operations listed below and expose them via a
   RESTful API.
+  
+  
 - List all female patients
 - Show details of a specific patient
 - Create a new patient
