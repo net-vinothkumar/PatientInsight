@@ -51,6 +51,10 @@ List of Patient Manager Application API's :
     'http://localhost:8080/api/v1/patients?gender=MALE' \
     -H 'accept: */*'
     
+  - curl -X 'DELETE' \
+    'http://localhost:8080/api/v1/patients/554cd7c0-c861-4829-ba67-e7419b15c5bd' \
+    -H 'accept: */*'  
+    
 How to access the API's using Swagger UI ?
   - http://localhost:8080/swagger or
   - http://localhost:8080/swagger-ui/index.html?configUrl=/api-docs/swagger-config
@@ -66,4 +70,17 @@ How to access the H2 database ?
 Technical Decisions :
 
 Further Improvements / Technical Debt :
+
+    1. Its better to write the test case for getting the patients data with lastname sorted in ASC.
+    2. More focus on FHIR compliant entity fields usage.
+    3. Improve the design for patientId , currently its UUID, require a technical brain stroming session.
+    4. Improvement for the GET API - to get all the female patients, not sure why the API should return
+       only female patients, using a filter we shall improve this API MALE or FEMALE or any other filter criteria.
+    5. More test cases could be written for convering the edge cases, ie what if the user provide an invalid date, gender, etc.
+    6. Require to discuss and handle to avoid duplicate patients.
+    7. Improvement in error messages shown to the API consumer, i.e more user friendly and with specific data i.e UUID etc.
+    8. Exception handling could be improved by creating custom error messages with more specific attributes.
+    9. Add more logging to trace the flow use cases.
+    10. Add test case for cleanup scheduler.
+    11. Add integration test case to test the different layer interaction i.e Controller, Service, Repository. 
 

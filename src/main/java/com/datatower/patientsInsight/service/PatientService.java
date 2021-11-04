@@ -31,9 +31,13 @@ public class PatientService {
 
     public List<Patient> getAllPatient(Gender gender) {
         if (gender == null) {
-            return patientRepository.findAll();
+            /** by default female patients - this could be improved
+             * if the user provides gender MALE / FEMALE we return the patients
+             * else we shall return all the patients.
+             **/
+            return patientRepository.findByGenderOrderByLastNameAsc(Gender.FEMALE);
         } else {
-            return patientRepository.findByGender(gender);
+            return patientRepository.findByGenderOrderByLastNameAsc(gender);
         }
     }
 
@@ -43,7 +47,7 @@ public class PatientService {
             patientRepository.deleteById(patientId);
         } else {
             throw new ResourceNotFoundException(
-                    String.format("Patient with id %s not found",
+                    String.format("Patient with id %s not exist",
                             patientId)
             );
         }
