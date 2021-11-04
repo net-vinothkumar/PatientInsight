@@ -67,8 +67,6 @@ How to access the H2 database ?
  - Table Name - Patients
  - Database name - patientsinsight
 
-Technical Decisions :
-
 Further Improvements / Technical Debt :
 
     1. Its better to write the test case for getting the patients data with lastname sorted in ASC.
