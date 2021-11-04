@@ -83,3 +83,8 @@ The application handles patient data - a patient is described by the following a
     11. Add integration test case to test the different layer interaction i.e Controller, Service, Repository.
     12. Patient - deleting records older than 1 year - scheduler - currently its running for everyday once at 12:00 AM, it could
         changed according to the requirement of product owner, frequency could be changed.
+
+### Few Snapshots :
+Database with patient details -
+
+https://github.com/net-vinothkumar/PatientInsight/issues/1
