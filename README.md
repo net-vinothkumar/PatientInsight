@@ -1,7 +1,7 @@
-# PatientInsight
+# PatientInsight - Patient Manager Application
 Manage Patient Details
 
-Requirement :
+### Requirement :
 
 Develop an application that manages patient data as described below.
 Model
@@ -23,14 +23,14 @@ The application handles patient data - a patient is described by the following a
 - Patient data should be stored persistently.
 - Collections should be sorted by last name ascending.
 
-Technology Stack :
+### Technology Stack :
 - Java 11
 - Spring Boot
 - Spring Data
 - Lombok
 - H2 Database
 
-List of Patient Manager Application API's :
+### List of Patient Manager Application API's :
   
   - curl -X 'POST' \
     'http://localhost:8080/api/v1/patients' \
@@ -55,19 +55,19 @@ List of Patient Manager Application API's :
     'http://localhost:8080/api/v1/patients/554cd7c0-c861-4829-ba67-e7419b15c5bd' \
     -H 'accept: */*'  
     
-How to access the API's using Swagger UI ?
+### How to access the API's using Swagger UI ?
   - http://localhost:8080/swagger or
   - http://localhost:8080/swagger-ui/index.html?configUrl=/api-docs/swagger-config
 
-How to run the "Patient Manager Application" ?
+### How to run the "Patient Manager Application" ?
  - mvn spring-boot:run
 
-How to access the H2 database ?
+### How to access the H2 database ?
  - http://localhost:8080/h2-console
  - Table Name - Patients
  - Database name - patientsinsight
 
-Further Improvements / Technical Debt :
+### Further Improvements / Technical Debt :
 
     1. Its better to write the test case for getting the patients data with lastname sorted in ASC.
     2. More focus on FHIR compliant entity fields usage.
